@@ -4,7 +4,8 @@
   "description": "A/B testing made easy. Works with MongoDB databases.",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "start": "node index.js",
+    "test": "./node_modules/mocha/bin/mocha ./tests/tests.js"
   },
   "repository": {
     "type": "git",
@@ -23,5 +24,11 @@
   "bugs": {
     "url": "https://github.com/xavimb/ab-testing/issues"
   },
-  "homepage": "https://github.com/xavimb/ab-testing"
+  "homepage": "https://github.com/xavimb/ab-testing",
+  "devDependencies": {
+    "chai": "^1.10.0",
+    "mocha": "^2.0.1",
+    "mongoose": "^3.8.20",
+    "underscore": "^1.7.0"
+  }
 }
