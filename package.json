@@ -1,6 +1,6 @@
 {
   "name": "ab-testing",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A/B testing made easy.",
   "main": "index.js",
   "scripts": {
