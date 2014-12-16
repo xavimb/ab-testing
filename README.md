@@ -14,11 +14,11 @@ A/B testing made easy.
 	ABTesting.init([
 		{
 			name: 'A',
-			weight: 0.1
+			weight: 0.1 // if not set, the default value is 0.5
 		},
 		{
 			name: 'B',
-			weight: 0.9
+			weight: 0.9 // if not set, the default value is 0.5
 		}
 	])
 
