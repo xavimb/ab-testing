@@ -62,5 +62,20 @@ describe('Test', function () {
             }
         ])
     })
+    it('should execute with the correct scope', function() {
+        ABTesting.init([{ name : 'A', weight : 30 },{ name : 'B', weight: 30 }])
+        this.foo = "foo"
+        var account = new Account({ email : 'bob@example.com', testGroup : ABTesting.getRandomGroup('bob@example.com') })
+        ABTesting.test(account.testGroup, [
+            function () {
+                account.testGroup.should.equal('A')
+                this.foo.should.equal('foo')
+            },
+            function() {
+                account.testGroup.should.equal('B')
+                this.foo.should.equal('foo')
+            }
+        ], this)
+    })
 })
 
