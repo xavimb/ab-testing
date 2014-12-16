@@ -30,5 +30,8 @@
     "mocha": "^2.0.1",
     "mongoose": "^3.8.20",
     "underscore": "^1.7.0"
+  },
+  "dependencies": {
+    "underscore": "^1.7.0"
   }
 }
