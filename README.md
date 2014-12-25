@@ -24,11 +24,12 @@ A/B testing made easy.
 
 ## Assign a group
 
-	// Give a unique ID for the user
+	// Given a unique ID of the user, returns 'A' or 'B'
 	var testGroup = testObject.getRandomGroup(user.id);
-	
+
 ## A/B Test
 
+	// Executes the corresponding function for the given group
 	testObject.test(testGroup, [
         function () {
             // Test A code here
