@@ -79,6 +79,5 @@ PricingPageTest.test(PricingPageGroup, [
 ], this);
 ```
 
-
 >NB: the last parameter `this` is optional. If the scope is not required, this paremeter can be ignored.
 
