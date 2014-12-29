@@ -2,6 +2,8 @@ ab-testing
 ==========
 
 [![Build Status](https://travis-ci.org/xavimb/ab-testing.svg?branch=master)](https://travis-ci.org/xavimb/ab-testing)
+[![Latest Stable Version](https://img.shields.io/npm/v/ab-testing.svg)](https://www.npmjs.com/package/ab-testing)
+[![License](https://img.shields.io/npm/l/ab-testing.svg)](https://raw.githubusercontent.com/xavimb/ab-testing/master/LICENSE)
 
 A/B testing made easy.
 
