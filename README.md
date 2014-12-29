@@ -12,9 +12,10 @@ A/B testing made easy.
 ```
 var ABTesting = require('ab-testing');
 
-var testObject = ABTesting.createTest([
+var testObject = ABTesting.createTest('firstTest', 	// This name has to be unique across all the tests
+[
 	{
-		name: 'A', 		// This name has to be unique across all the tests
+		name: 'A',
 		weight: 0.1 	// If not set, the default value is 0.5
 	},
 	{
@@ -28,7 +29,14 @@ var testObject = ABTesting.createTest([
 
 ```
 // Given a unique ID of the user, returns 'A' or 'B'
-var testGroup = testObject.getRandomGroup(user.id);
+var testGroup = testObject.getGroup(user.id);
+```
+
+## Get test name
+
+```
+// Returns the name of the test, in this case 'firstTest'
+var testName = testObject.getName();
 ```
 
 ## A/B Test
@@ -45,18 +53,25 @@ testObject.test(testGroup, [
 ], this);
 ```
 
+## Useful usage tips
+
+```
+// Use the test name and the group name to track analytics
+sendToAnalytics(testName, testGroup);
+```
+
 ## Create multiple A/B tests
 
 ```
 var ABTesting = require('ab-testing');
 
-var landingPageTest = ABTesting.createTest[{ name: 'oldLandingPage' }, { name: 'newLandingPage' }]);
-var pricingPageTest = ABTesting.createTest[{ name: 'oldPricingPage' }, { name: 'newPricingPage' }]);
+var landingPageTest = ABTesting.createTest('landingPage', [{ name: 'oldLandingPage' }, { name: 'newLandingPage' }]);
+var pricingPageTest = ABTesting.createTest('pricingPage', [{ name: 'oldPricingPage' }, { name: 'newPricingPage' }]);
 
 ...
 
-var landingPageGroup = pandingPageTest.getRandomGroup(req.account.username);
-var pricingPageGroup = pricingPageTest.getRandomGroup(req.account.username);
+var landingPageGroup = pandingPageTest.getGroup(req.account.username);
+var pricingPageGroup = pricingPageTest.getGroup(req.account.username);
 
 ...
 
