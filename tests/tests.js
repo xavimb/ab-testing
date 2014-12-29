@@ -12,23 +12,23 @@ var Account = db.model('Account', { email : String, testGroup : String });
 
 describe('Init', function() {
     it('should work with a default weight', function () {
-        var ABTest = ABTesting.createTest([{ name : 'A' },{ name : 'B' }]);
+        var abTest = ABTesting.createTest([{ name : 'A' },{ name : 'B' }]);
 
-        var account = new Account({ email : 'alice@example.com', testGroup : ABTest.getRandomGroup('alice@example.com') });
+        var account = new Account({ email : 'alice@example.com', testGroup : abTest.getRandomGroup('alice@example.com') });
 
         account.testGroup.should.match(/^[A|B]/);
     });
     it('should work with weights smaller than 1', function () {
-        var ABTest = ABTesting.createTest([{ name : 'A', weight : 0.3 },{ name : 'B', weight: 0.3 }]);
+        var abTest = ABTesting.createTest([{ name : 'A', weight : 0.3 },{ name : 'B', weight: 0.3 }]);
 
-        var account = new Account({ email : 'bob@example.com', testGroup : ABTest.getRandomGroup('bob@example.com') });
+        var account = new Account({ email : 'bob@example.com', testGroup : abTest.getRandomGroup('bob@example.com') });
 
         account.testGroup.should.match(/^[A|B]/);
     });
     it('should work with weights bigger than 1', function () {
-        var ABTest = ABTesting.createTest([{ name : 'A', weight : 30 },{ name : 'B', weight: 30 }]);
+        var abTest = ABTesting.createTest([{ name : 'A', weight : 30 },{ name : 'B', weight: 30 }]);
 
-        var account = new Account({ email : 'bob@example.com', testGroup : ABTest.getRandomGroup('bob@example.com') });
+        var account = new Account({ email : 'bob@example.com', testGroup : abTest.getRandomGroup('bob@example.com') });
 
         account.testGroup.should.match(/^[A|B]/);
     });
@@ -36,10 +36,10 @@ describe('Init', function() {
 
 describe('Test', function () {
     it('should execute the correct function for Alice', function() {
-        var ABTest = ABTesting.createTest([{ name : 'A' },{ name : 'B' }]);
+        var abTest = ABTesting.createTest([{ name : 'A' },{ name : 'B' }]);
 
-        var account = new Account({ email : 'alice@example.com', testGroup : ABTest.getRandomGroup('alice@example.com') });
-        ABTest.test(account.testGroup, [
+        var account = new Account({ email : 'alice@example.com', testGroup : abTest.getRandomGroup('alice@example.com') });
+        abTest.test(account.testGroup, [
             function () {
                 account.testGroup.should.equal('A');
             },
@@ -49,10 +49,10 @@ describe('Test', function () {
         ]);
     });
     it('should execute the correct function for Bob', function() {
-        var ABTest = ABTesting.createTest([{ name : 'A' },{ name : 'B' }]);
+        var abTest = ABTesting.createTest([{ name : 'A' },{ name : 'B' }]);
 
-        var account = new Account({ email : 'bob@example.com', testGroup : ABTest.getRandomGroup('bob@example.com') });
-        ABTest.test(account.testGroup, [
+        var account = new Account({ email : 'bob@example.com', testGroup : abTest.getRandomGroup('bob@example.com') });
+        abTest.test(account.testGroup, [
             function () {
                 account.testGroup.should.equal('A');
             },
@@ -62,10 +62,10 @@ describe('Test', function () {
         ]);
     });
     it('should execute with the correct scope', function() {
-        var ABTest = ABTesting.createTest([{ name : 'A' },{ name : 'B' }]);
+        var abTest = ABTesting.createTest([{ name : 'A' },{ name : 'B' }]);
         this.foo = "foo";
-        var account = new Account({ email : 'bob@example.com', testGroup : ABTest.getRandomGroup('bob@example.com') });
-        ABTest.test(account.testGroup, [
+        var account = new Account({ email : 'bob@example.com', testGroup : abTest.getRandomGroup('bob@example.com') });
+        abTest.test(account.testGroup, [
             function () {
                 account.testGroup.should.equal('A');
                 this.foo.should.equal('foo');
@@ -77,10 +77,10 @@ describe('Test', function () {
         ], this);
     });
     it('should return error if the user group does not match any test', function () {
-        var ABTest = ABTesting.createTest([{ name : 'A' },{ name : 'B' }]);
+        var abTest = ABTesting.createTest([{ name : 'A' },{ name : 'B' }]);
 
         try {
-            ABTest.test('nonExistingGroup', [
+            abTest.test('nonExistingGroup', [
                 function () {
                     should.throw.error();
                 },
@@ -94,39 +94,62 @@ describe('Test', function () {
     });
 });
 
-describe('Test more than one A/B test', function () {
+describe('Different number of experiments', function () {
+    it('should accept 3 experiments', function () {
+        var abTest = ABTesting.createTest([{ name: 'A'}, { name: 'B'}, { name: 'C'}]);
+        var username = 'unique@username.com';
+
+        while(abTest.getRandomGroup(username) != 'C')
+            abTest = ABTesting.createTest([{ name: 'A'}, { name: 'B'}, { name: 'C'}]);
+    });
+    it('should hit only one test if the weight of the others is 0', function () {
+        var config = [
+            { name: 'A', weight: 1},
+            { name: 'B', weight: 0},
+            { name: 'C', weight: 0}
+        ];
+        var abTest = ABTesting.createTest(config);
+        var username = 'unique@username.com';
+
+        for(var i = 0; i < 100; i++) {
+            abTest.getRandomGroup(username).should.be.equal('A');
+            abTest = ABTesting.createTest(config);
+        }
+    })
+})
+
+describe('More than one A/B test', function () {
     it('should accept more than one test', function () {
-        var TestOne = ABTesting.createTest([{ name: 'A'}, { name: 'B'}]);
-        var TestTwo = ABTesting.createTest([{ name: 'ATest'}, { name: 'BTest'}]);
+        var testOne = ABTesting.createTest([{ name: 'A'}, { name: 'B'}]);
+        var testTwo = ABTesting.createTest([{ name: 'ATest'}, { name: 'BTest'}]);
 
-        var TestOneGroup = TestOne.getRandomGroup('username');
-        var TestTwoGroup = TestTwo.getRandomGroup('anotherUsername');
+        var testOneGroup = testOne.getRandomGroup('username');
+        var testTwoGroup = testTwo.getRandomGroup('anotherUsername');
 
-        TestOne.test(TestOneGroup, [
+        testOne.test(testOneGroup, [
             function () {
-                TestOneGroup.should.be.equal('A');
+                testOneGroup.should.be.equal('A');
             },
             function () {
-                TestOneGroup.should.be.equal('B');
+                testOneGroup.should.be.equal('B');
             }
         ], this);
 
-        TestTwo.test(TestTwoGroup, [
+        testTwo.test(testTwoGroup, [
             function () {
-                TestTwoGroup.should.be.equal('ATest');
+                testTwoGroup.should.be.equal('ATest');
             },
             function () {
-                TestTwoGroup.should.be.equal('BTest');
+                testTwoGroup.should.be.equal('BTest');
             }
         ], this);
     });
     it('should give different groups for each test', function () {
-        var TestOne = ABTesting.createTest([{ name: 'A'}, { name: 'B'}]);
-        var TestTwo = ABTesting.createTest([{ name: 'A'}, { name: 'B'}]);
+        var testOne = ABTesting.createTest([{ name: 'A'}, { name: 'B'}]);
+        var testTwo = ABTesting.createTest([{ name: 'A'}, { name: 'B'}]);
         var username = 'testUsername';
 
-        while(TestOne.getRandomGroup(username) != TestTwo.getRandomGroup(username)) {
-            TestTwo = ABTesting.createTest([{ name: 'A'}, { name: 'B'}]);
-        };
+        while(testOne.getRandomGroup(username) != testTwo.getRandomGroup(username))
+            testTwo = ABTesting.createTest([{ name: 'A'}, { name: 'B'}]);
     });
 });
