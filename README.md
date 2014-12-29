@@ -1,6 +1,8 @@
 ab-testing
 ==========
 
+[![Build Status](https://travis-ci.org/xavimb/ab-testing.svg?branch=master)](https://travis-ci.org/xavimb/ab-testing)
+
 A/B testing made easy.
 
 ## Install
