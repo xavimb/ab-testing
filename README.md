@@ -14,12 +14,12 @@ var ABTesting = require('ab-testing');
 
 var testObject = ABTesting.createTest([
 	{
-		name: 'A',
-		weight: 0.1 // if not set, the default value is 0.5
+		name: 'A', 		// This name has to be unique across all the tests
+		weight: 0.1 	// If not set, the default value is 0.5
 	},
 	{
 		name: 'B',
-		weight: 0.9 // if not set, the default value is 0.5
+		weight: 0.9
 	}
 ]);
 ```
@@ -50,17 +50,17 @@ testObject.test(testGroup, [
 ```
 var ABTesting = require('ab-testing');
 
-var LandingPageTest = ABTesting.createTest[{ name: 'oldLandingPage' }, { name: 'newLandingPage' }]);
-var PricingPageTest = ABTesting.createTest[{ name: 'oldPricingPage' }, { name: 'newPricingPage' }]);
+var landingPageTest = ABTesting.createTest[{ name: 'oldLandingPage' }, { name: 'newLandingPage' }]);
+var pricingPageTest = ABTesting.createTest[{ name: 'oldPricingPage' }, { name: 'newPricingPage' }]);
 
 ...
 
-var LandingPageGroup = LandingPageTest.getRandomGroup(req.account.username);
-var PricingPageGroup = PricingPageTest.getRandomGroup(req.account.username);
+var landingPageGroup = pandingPageTest.getRandomGroup(req.account.username);
+var pricingPageGroup = pricingPageTest.getRandomGroup(req.account.username);
 
 ...
 
-LandingPageTest.test(LandingPageGroup, [
+landingPageTest.test(landingPageGroup, [
 	function () {
 		// oldLandingPage code
 	},
@@ -69,7 +69,7 @@ LandingPageTest.test(LandingPageGroup, [
 	}
 ], this);
 
-PricingPageTest.test(PricingPageGroup, [
+pricingPageTest.test(pricingPageGroup, [
 	function () {
 		// oldPricingPage code
 	},

@@ -97,10 +97,9 @@ describe('Test', function () {
 describe('Different number of experiments', function () {
     it('should accept 3 experiments', function () {
         var abTest = ABTesting.createTest([{ name: 'A'}, { name: 'B'}, { name: 'C'}]);
-        var username = 'unique@username.com';
+        var username = 'username@domain.net';
 
-        while(abTest.getRandomGroup(username) != 'C')
-            abTest = ABTesting.createTest([{ name: 'A'}, { name: 'B'}, { name: 'C'}]);
+        abTest.getRandomGroup(username).should.be.equal('C');
     });
     it('should hit only one test if the weight of the others is 0', function () {
         var config = [
@@ -144,12 +143,19 @@ describe('More than one A/B test', function () {
             }
         ], this);
     });
-    it('should give different groups for each test', function () {
+    it('should return same groups for the same test names', function () {
         var testOne = ABTesting.createTest([{ name: 'A'}, { name: 'B'}]);
         var testTwo = ABTesting.createTest([{ name: 'A'}, { name: 'B'}]);
         var username = 'testUsername';
 
-        while(testOne.getRandomGroup(username) != testTwo.getRandomGroup(username))
-            testTwo = ABTesting.createTest([{ name: 'A'}, { name: 'B'}]);
+        testOne.getRandomGroup(username).should.be.equal(testTwo.getRandomGroup(username));
+    });
+
+    it('should return different groups for different tests', function () {
+        var testOne = ABTesting.createTest([{ name: 'A'}, { name: 'B'}]);
+        var testTwo = ABTesting.createTest([{ name: 'C'}, { name: 'D'}]);
+        var username = 'testUsername';
+
+        testOne.getRandomGroup(username).should.not.be.equal(testTwo.getRandomGroup(username));
     });
 });
