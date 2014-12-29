@@ -35,7 +35,7 @@ var testGroup = testObject.getGroup(user.id);
 ## Get test name
 
 ```
-// Returns the name of the test, in this case 'fistTest'
+// Returns the name of the test, in this case 'firstTest'
 var testName = testObject.getName();
 ```
 
