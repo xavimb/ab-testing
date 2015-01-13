@@ -92,6 +92,22 @@ describe('Test', function () {
             err.should.exist();
         }
     });
+    it('should return different groups for different users', function () {
+        var abTest = ABTesting.createTest('test', [{ name : 'A' },{ name : 'B' }]);
+
+        var username = Math.random().toString(),
+            isA = false,
+            isB = false;
+
+        for(var i = 0; i < 10000 && !isA; i++) {
+            isA = abTest.getGroup(username) === 'A';
+            username = Math.random().toString();
+        }
+        for(var i = 0; i < 10000 && !isB; i++) {
+            isB = abTest.getGroup(username) === 'B';
+            username = Math.random().toString();
+        }
+    });
 });
 
 describe('Different number of experiments', function () {
@@ -99,7 +115,7 @@ describe('Different number of experiments', function () {
         var abTest = ABTesting.createTest('test', [{ name: 'A'}, { name: 'B'}, { name: 'C'}]);
         var username = 'username@example.com';
 
-        abTest.getGroup(username).should.be.equal('C');
+        abTest.getGroup(username).should.be.equal('A');
     });
     it('should hit only one test if the weight of the others is 0', function () {
         var config = [
