@@ -84,7 +84,7 @@ describe('Test', function () {
                 }
             ]);
         } catch (err) {
-            err.should.exist();
+            err.should.exist;
         }
     });
     it('should return different groups for different users', function () {
