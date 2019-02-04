@@ -27,6 +27,46 @@ describe('Init', function() {
 
         group.should.match(/^[A|B]/);
     });
+
+  it('should work with many groups', function() {
+    var users = [];
+    for (var i = 0; i <1000; i++) {
+      users.push(i);
+    }
+
+    var testObject = ABTesting.createTest('manyGroupTest', [{
+        name: 'A',
+        weight: 0.25
+      },
+      {
+        name: 'B',
+        weight: 0.25
+      },
+      {
+        name: 'C',
+        weight: 0.25
+      },
+      {
+        name: 'D',
+        weight: 0.25
+      }
+    ]);
+
+
+
+    var groups = users.reduce(function(accumulator, currentValue) {
+      cohort = testObject.getGroup(currentValue.toString());
+
+
+      accumulator[cohort] = true;
+
+
+      return accumulator;
+
+    }, {});
+
+    Object.keys(groups).sort().should.deep.equal(['A','B','C','D'])
+  });
 });
 
 describe('Test', function () {
@@ -84,7 +124,7 @@ describe('Test', function () {
                 }
             ]);
         } catch (err) {
-            err.should.exist();
+            err.should.exist;
         }
     });
     it('should return different groups for different users', function () {
