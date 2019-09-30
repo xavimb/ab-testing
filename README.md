@@ -74,7 +74,7 @@ var pricingPageTest = ABTesting.createTest('pricingPage', [{ name: 'oldPricingPa
 
 ...
 
-var landingPageGroup = pandingPageTest.getGroup(req.account.username);
+var landingPageGroup = landingPageTest.getGroup(req.account.username);
 var pricingPageGroup = pricingPageTest.getGroup(req.account.username);
 
 ...
