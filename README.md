@@ -11,7 +11,7 @@ A/B testing made easy.
 
 This project is maintained during weekends and free time. If you find this useful, consider buying me a coffee!
 
-<a href="https://www.buymeacoffee.com/xavimb" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
+<a href="https://www.buymeacoffee.com/xavimb" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Donate" style="height: auto !important;width: auto !important;" ></a>
 
 ## Install
 
