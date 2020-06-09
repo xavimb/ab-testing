@@ -27,7 +27,7 @@
   "homepage": "https://github.com/xavimb/ab-testing",
   "devDependencies": {
     "chai": "^4.2.0",
-    "mocha": "^5.2.0",
+    "mocha": "^7.2.0",
     "underscore": "^1.9.0"
   },
   "dependencies": {
