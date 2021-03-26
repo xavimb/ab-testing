@@ -31,6 +31,6 @@
   },
   "dependencies": {
     "blueimp-md5": "^1.1.0",
-    "lodash": "^4.17.20"
+    "lodash.isfinite": "^3.3.2"
   }
 }
