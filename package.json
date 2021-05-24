@@ -1,6 +1,6 @@
 {
   "name": "ab-testing",
-  "version": "3.1.7",
+  "version": "3.1.8",
   "description": "A/B testing made easy.",
   "main": "index.js",
   "scripts": {
@@ -27,7 +27,7 @@
   "homepage": "https://github.com/xavimb/ab-testing",
   "devDependencies": {
     "chai": "^4.2.0",
-    "mocha": "^7.2.0"
+    "mocha": "^8.4.0"
   },
   "dependencies": {
     "blueimp-md5": "^1.1.0",
