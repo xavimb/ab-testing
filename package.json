@@ -27,7 +27,7 @@
   "homepage": "https://github.com/xavimb/ab-testing",
   "devDependencies": {
     "chai": "^4.2.0",
-    "mocha": "^8.4.0"
+    "mocha": "^10.2.0"
   },
   "dependencies": {
     "blueimp-md5": "^1.1.0",
